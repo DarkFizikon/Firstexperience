@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MatrixHelper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace ConsoleApplication2
     {
         static void Main(string[] args)
         {
-            int[,] myArr = new int[3, 3];
-            int[,] myArk = new int[3, 3];
+            MatrixInstance myArr = new MatrixInstance();
+            MatrixInstance myArk = new MatrixInstance();
             using (FileStream f1 = new FileStream("Input.txt", FileMode.Open))
             {
                 using (StreamReader dat = new StreamReader(f1))
@@ -24,23 +25,23 @@ namespace ConsoleApplication2
                 }
             }
             // здесь должно быть алгоритм вычисления
-            Massdeport(myArr);
-            Massdeport(myArk);
+            MatrixInstance newArr = myArr.Peremnogenie(myArk);
+            Massdeport(newArr);
         }
 
-        private static void Massdeport(int[,] myArr)
+        private static void Massdeport(MatrixInstance myArr)
         {
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("Output.txt"))
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    string line = myArr[y, 0] + " " + myArr[y, 1] + " " + myArr[y, 2];
+                    string line = myArr.MatrixArr[y, 0] + " " + myArr.MatrixArr[y, 1] + " " + myArr.MatrixArr[y, 2];
                     file.WriteLine(line);
                 }
             }
         }
 
-        private static void Massread(int[,] myArr, StreamReader dat)
+        private static void Massread(MatrixInstance myArr, StreamReader dat)
         {
             Char delimiter = ' ';
             for (int j = 0; j < 3; j++)
@@ -48,8 +49,7 @@ namespace ConsoleApplication2
                 string[] Mass = dat.ReadLine().Split(delimiter);
                 for (int i = 0; i < 3; i++)
                 {
-                    myArr[j, i] = Convert.ToInt32(Mass[i]);
-
+                    myArr.NewMethod(j,i, Mass[i]);
                 }
             }
         }
